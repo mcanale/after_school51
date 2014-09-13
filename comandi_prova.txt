@@ -1,0 +1,139 @@
+=begin
+    <%= f.select :course_id, options_for_select(Course.all.map { |c| [c.name, c.id] }, @student.course_id) %>
+
+
+rails generate scaffold student name surname course_id:integer awaited_Mon:boolean awaited_Tue:boolean awaited_Wed:boolean awaited_Thu:boolean awaited_Fri:boolean awaited_Sat:boolean awaited_Sun:boolean 
+
+rails generate scaffold subject name
+
+rails generate scaffold presence date:date:index absent:boolean user_id:integer student_id:integer subject_id:integer note
+
+rails generate controller home index
+
+<div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.number_field :user_id %>
+</div>
+
+rails generate migration AddDateToPresences date:date:index
+
+  before_action :authenticate_user!
+
+  #un funzione di prova per la gestione della data  
+  def prova_data
+    adesso = Date.today
+    @data = {'giorno_sett' => adesso.strftime("%a"), 'data_formattata' => adesso.strftime("%d %b %Y") }
+  end
+
+<h1>Listing presences</h1>
+
+<%= form_tag new_presence_path  %>
+  <div class="field">
+    <%= label_tag :course_id %><br>
+    <%= select_tag :course_id, options_from_collection_for_select(Course.all, :id, :name)  %>
+  </div>
+  <div class="field">
+    <%= label_tag :date %><br>
+    <%= date_field_tag :date, value = Date.today %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Edit these precences" %>
+  </div>
+
+<%= link_to 'New Presence', new_presence_path %>
+
+
+<% @presence.user_id = current_user.id %>
+  <%#= current_user.inspect %>
+  <%#= @presence.inspect %>
+
+<div class="field">
+    <%= f.label 'Subjects incomplete' %><br>
+    <%= f.collection_select :subject_ids, @subjects, :id, :name, {}, multiple: true %>
+  </div>
+
+rails generate controller Presences index modify destroy
+
+rails generate model Presences student_id:integer date:date:index absent:boolean user_id:integer subject_ids:integer note
+
+<tbody>
+  	<% @students.each.with_index(1) do |student, index| %>
+  	  <tr>
+      	<td><%= index %></td>
+      	<td><%= student.surname %></td>
+        <td><%= student.name %></td>
+
+<% awaited = case @date[0..2] %>
+<% when "Mon" then student.awaited_Mon %>
+<% when "Tue" then student.awaited_Tue %>
+<% when "Wed" then student.awaited_Wed %>
+<% when "Thu" then student.awaited_Thu %>
+<% when "Fri" then student.awaited_Fri %>
+<% when "Sat" then student.awaited_Sat %>
+<% when "Sun" then student.awaited_Sun %>
+<% end %>
+        <td><%= awaited.to_s.capitalize %></td>
+
+ <td><%= pf.check_box ":student.awaited_#{@date[0..2]}", disabled: true%></td>
+
+        <td><%= check_box_tag :absent %></td>
+        <td><%= select_tag :subject_ids, options_from_collection_for_select(Subject.all, :id, :name), multiple: true %></td>
+        <td><%= text_area_tag :note, nil, rows: 4 %></td>
+        <td><%= hidden_field :user_id, current_user.id %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+  Parameters: {..., "presences"=>{
+  "0"=>{"absent"=>"1", "subject_ids"=>[""], "note"=>"", "student_id"=>"1"}, 
+  "1"=>{"absent"=>"0", "subject_ids"=>["", "1"], "note"=>"", "student_id"=>"2"}, 
+  "2"=>{"absent"=>"0", "subject_ids"=>["", "2", "3"], "note"=>"", "student_id"=>"3"}, 
+  "3"=>{"absent"=>"0", "subject_ids"=>[""], "note"=>"bravo", "student_id"=>"4"}, 
+  "4"=>{"absent"=>"0", "subject_ids"=>[""], "note"=>"", "student_id"=>"5"}
+  }, "commit"=>"Save"}
+
+
+  	params[:presences].each do |presence_data|
+  		presence = Presences.new(
+  			student_id: presence_data[:student_id],
+			data:...
+			absent: presence_data[:absent],
+			user_id: current_user.id,
+			note: presence_data[:note],
+			#subject_ids: presence_data[:subject_ids].drop(1)
+  		)
+  		presence.subjects = presence_data[:subject_ids].drop(1)
+  		presence.save
+  	  #end
+    end
+
+class Presences_subjects < ActiveRecord::Base
+  belongs_to :presences
+  belongs_to :subjects
+end
+
+rails generate model presences_subjects --migration=false
+
+"presences"=>{
+"0"=>{"absent"=>"0", "subject_ids"=>[""], "note"=>"", 
+	"student_id"=>"8", "date"=>"2014-09-03", "id"=>"101"}, 
+"1"=>{"absent"=>"0", "subject_ids"=>["", ""], "note"=>"", 
+	"student_id"=>"6", "date"=>"2014-09-03", "id"=>"102"}, 
+"2"=>{"absent"=>"0", "subject_ids"=>[""], "note"=>"ooooo", 
+	"student_id"=>"7", "date"=>"2014-09-03", "id"=>"103"}}
+  
+
+Allows detailed configuration for :smtp delivery method:
+:address - mail.sdbtrento.it
+:port - 25
+resto non serve
+
+:domain - sdbtrento.it (prima senza)
+:user_name - If your mail server requires authentication, set the username in this setting.
+:password - If your mail server requires authentication, set the password in this setting.
+:authentication - If your mail server requires authentication, you need to specify the authentication type here. This is a symbol and one of :plain, :login, :cram_md5.
+:enable_starttls_auto - Set this to false if there is a problem with your server certificate that you cannot resolve.
+
+=end
+

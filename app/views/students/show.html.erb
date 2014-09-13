@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Surname:</strong>
+  <%= @student.surname %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @student.name %>
+</p>
+
+<p>
+  <strong>Course:</strong>
+  <%= @student.course.name %>
+</p>
+
+<p>
+  <strong>Mon:</strong>
+  <%= @student.awaited_Mon %>
+</p>
+
+<p>
+  <strong>Tue:</strong>
+  <%= @student.awaited_Tue %>
+</p>
+
+<p>
+  <strong>Wed:</strong>
+  <%= @student.awaited_Wed %>
+</p>
+
+<p>
+  <strong>Thu:</strong>
+  <%= @student.awaited_Thu %>
+</p>
+
+<p>
+  <strong>Fri:</strong>
+  <%= @student.awaited_Fri %>
+</p>
+
+<p>
+  <strong>Sat:</strong>
+  <%= @student.awaited_Sat %>
+</p>
+
+<p>
+  <strong>Sun:</strong>
+  <%= @student.awaited_Sun %>
+</p>
+
+<%= link_to 'Edit', edit_student_path(@student) %> |
+<%= link_to 'Back', students_path %>

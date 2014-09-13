@@ -1,0 +1,26 @@
+<% if notice %>
+  <div id="error_explanation">
+    <ul>
+      <li><%= notice %></li>
+    </ul>
+  </div>
+<% end %>
+
+<h1>Listing presences</h1>
+
+<p>Scegli che presenze vuoi modificare</p>
+<%= form_tag presences_new_path, method: :get  %>
+  <div class="field">
+    <%= label_tag :course_id %><br>
+    <%= select_tag :course_id, options_from_collection_for_select(Course.all, :id, :name)  %>
+  </div>
+  <div class="field">
+    <%= label_tag :date %><br>
+    <%= date_field_tag :date, value = Date.today %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Insert" %>
+    <%= submit_tag "Modify", name: 'modify_button' %>
+    <%= submit_tag "Destroy", name: 'destroy_button', data: {confirm: 'Are you sure?'} %>
+  </div>
+</form>

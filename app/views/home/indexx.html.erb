@@ -1,0 +1,14 @@
+<h1>Afterschool</h1>
+
+<% if user_signed_in? %>
+  <ul>
+	<li><%= link_to "Gestione PRESENZE", presences_index_path %></li>
+	<% if current_user.administrator %>
+		<li><%= link_to "Gestione STUDENTI", students_path %></li>
+		<li><%= link_to "Gestione CLASSI", courses_path %></li>
+		<li><%= link_to "Gestione MATERIE", subjects_path %></li>
+	<% end %>
+  </ul>
+<% else %>
+	<%= link_to "Dovresti fare login...", new_user_session_path %>
+<% end %>

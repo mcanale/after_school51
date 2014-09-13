@@ -1,0 +1,59 @@
+<table>
+  <thead>
+    <tr>
+      <th>Nr</th>
+      <th>SurName</th>
+      <th>Name</th>
+      <th>Awaited<br>today</th>
+      <th>Absent</th>
+      <th>Subjects Incomplete</th>
+      <th>Note</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+
+<% if params[:modify_button] %>
+<%   args = presences_edit_path(@presences) %>
+<% else %>
+<%   args = presences_index_path(@presences) %>
+<% end %>
+<%=  form_tag args do |f|  %>
+
+<% if @presences  %>
+  <% @presences.each_with_index do |presence, index| %> 
+    <tr>
+      <%= fields_for "presences[#{index}]", presence do |pf| %>
+        <td><%= index+1 %></td>
+        <td><%= presence.student.surname %></td>
+        <td><%= presence.student.name %></td>
+<% awaited = case @date[0..2] %>
+<% when "Mon" then presence.student.awaited_Mon %>
+<% when "Tue" then presence.student.awaited_Tue %>
+<% when "Wed" then presence.student.awaited_Wed %>
+<% when "Thu" then presence.student.awaited_Thu %>
+<% when "Fri" then presence.student.awaited_Fri %>
+<% when "Sat" then presence.student.awaited_Sat %>
+<% when "Sun" then presence.student.awaited_Sun %>
+<% end %>
+        <td><%= check_box_tag :awaited, nil, awaited, disabled: true %></td>
+
+        <td><%= pf.check_box :absent %></td>
+        <td><%= pf.select :subject_ids, options_from_collection_for_select(Subject.all, :id, :name, presence.subjects.map { |s| s.id }), {include_blank: true}, multiple: true %>
+        <td><%= pf.text_area :note, rows: 4 %></td>
+        <td><%= pf.hidden_field :student_id, value: presence.student_id %></td>
+        <td><%= pf.hidden_field :date, value: presence.date %></td>
+        <td><%= pf.hidden_field :id, value: presence.id %></td>
+      <% end %>
+    </tr>
+  <% end %>
+    <tr>
+      <td><%= submit_tag "Save" %></td>
+    </tr>  
+<% end %>
+<% end %>
+
+  </tbody>
+</table>

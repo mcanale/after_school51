@@ -1,0 +1,58 @@
+<%= form_for(@student) do |f| %>
+  <% if @student.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
+
+      <ul>
+      <% @student.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :surname %><br>
+    <%= f.text_field :surname %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :course_id %><br>
+    <%= f.select :course_id, options_from_collection_for_select(Course.all, :id, :name, @student.course_id) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :awaited_Mon %><br>
+    <%= f.check_box :awaited_Mon %>
+  </div>
+  <div class="field">
+    <%= f.label :awaited_Tue %><br>
+    <%= f.check_box :awaited_Tue %>
+  </div>
+  <div class="field">
+    <%= f.label :awaited_Wed %><br>
+    <%= f.check_box :awaited_Wed %>
+  </div>
+  <div class="field">
+    <%= f.label :awaited_Thu %><br>
+    <%= f.check_box :awaited_Thu %>
+  </div>
+  <div class="field">
+    <%= f.label :awaited_Fri %><br>
+    <%= f.check_box :awaited_Fri %>
+  </div>
+  <div class="field">
+    <%= f.label :awaited_Sat %><br>
+    <%= f.check_box :awaited_Sat %>
+  </div>
+  <div class="field">
+    <%= f.label :awaited_Sun %><br>
+    <%= f.check_box :awaited_Sun %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

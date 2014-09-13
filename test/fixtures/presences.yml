@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  student_id: 1
+  date: 2014-08-31
+  absent: false
+  user_id: 1
+  subject_ids: 1
+  note: MyString
+
+two:
+  student_id: 1
+  date: 2014-08-31
+  absent: false
+  user_id: 1
+  subject_ids: 1
+  note: MyString
